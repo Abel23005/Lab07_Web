@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+<div class="row">
+  <div class="col s12">
+    <div class="card hero-banner hoverable">
+      <div class="card-content">
+        <span class="card-title"><i class="material-icons left">dashboard</i> Panel de usuario</span>
+        <p id="welcome-msg" style="font-size:1.05rem;opacity:.95;">
+          Bienvenido. Aquí tienes un resumen de tus datos en formato JSON (respuesta de la API).
+        </p>
+      </div>
+    </div>
+    <div class="card app-card hoverable">
+      <div class="card-content">
+        <span class="card-title">Datos de la sesión</span>
+        <p class="grey-text text-darken-1">Obtenidos con <code>GET /api/users/me</code> y tu token JWT.</p>
+        <pre id="user-json" class="pre-json grey lighten-4 hide" style="padding:14px;overflow:auto;max-height:420px;"></pre>
+        <p id="user-json-error" class="hide red-text text-darken-2"></p>
+        <a href="/profile" class="btn waves-effect waves-light btn-app" style="margin-top:12px;">
+          Ir a mi cuenta <i class="material-icons right">chevron_right</i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    var token = AuthLab.requireRolePage(['user', 'admin']);
+    if (!token) return;
+    try {
+      var res = await AuthLab.apiFetch('/api/users/me');
+      var u = await res.json();
+      if (!res.ok) throw new Error(u.message || 'Error');
+      var label = [u.name, u.lastName].filter(Boolean).join(' ') || u.email;
+      document.getElementById('welcome-msg').textContent =
+        'Hola, ' + label + '. Aquí están tus datos.';
+      var pre = document.getElementById('user-json');
+      pre.textContent = JSON.stringify(u, null, 2);
+      pre.classList.remove('hide');
+    } catch (e) {
+      var err = document.getElementById('user-json-error');
+      err.textContent = 'No se pudieron cargar los datos.';
+      err.classList.remove('hide');
+    }
+  });
+</script>
+<%- include('../partials/footer') %>

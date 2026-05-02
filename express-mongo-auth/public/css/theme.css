@@ -1,0 +1,202 @@
+/* Tema visual — complementa Materialize */
+:root {
+  --app-primary: #1565c0;
+  --app-primary-dark: #0d47a1;
+  --app-accent: #00897b;
+  --app-surface: #ffffff;
+  --app-muted: #546e7a;
+  --app-radius: 14px;
+  --app-shadow: 0 12px 40px rgba(13, 71, 161, 0.14);
+  --app-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+body.app-body {
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(165deg, #e3f2fd 0%, #eceff1 38%, #fafafa 100%);
+  min-height: 100vh;
+  color: #263238;
+}
+
+nav.navbar-app {
+  background: linear-gradient(92deg, #1565c0 0%, #00695c 100%);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+}
+
+nav.navbar-app .brand-logo {
+  font-weight: 700;
+  font-size: 1.35rem !important;
+  letter-spacing: -0.03em;
+  padding-left: 0 !important;
+}
+
+@media only screen and (max-width: 992px) {
+  nav.navbar-app .brand-logo {
+    left: 56px !important;
+    transform: none !important;
+  }
+}
+
+nav.navbar-app ul a {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+nav.navbar-app ul a:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.app-main {
+  padding-top: 1.25rem;
+  padding-bottom: 3rem;
+}
+
+.app-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 1rem 0;
+  margin-top: auto;
+  font-size: 0.85rem;
+  color: var(--app-muted);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+}
+
+.app-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* Tarjetas */
+.card.auth-card,
+.card.app-card {
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  overflow: hidden;
+}
+
+.card.auth-card {
+  box-shadow: var(--app-shadow);
+}
+
+.card.auth-card .card-content {
+  padding: 2rem 2rem 1.75rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .card.auth-card .card-content {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+.card .card-title {
+  font-weight: 700 !important;
+  color: var(--app-primary-dark);
+  letter-spacing: -0.02em;
+}
+
+.auth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--app-accent);
+  margin-bottom: 0.35rem;
+}
+
+.auth-lead {
+  color: var(--app-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.auth-links {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eceff1;
+  font-size: 0.95rem;
+}
+
+.auth-links a {
+  font-weight: 600;
+}
+
+.btn-app {
+  background: linear-gradient(92deg, #1565c0 0%, #00897b 100%) !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.35);
+}
+
+.btn-app:hover {
+  filter: brightness(1.05);
+}
+
+.btn-app-outline {
+  border-radius: 8px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+}
+
+.hero-banner {
+  border-radius: var(--app-radius);
+  background: linear-gradient(120deg, #1565c0 0%, #00897b 100%);
+  color: #fff;
+  box-shadow: var(--app-shadow-soft);
+}
+
+.hero-banner .card-title,
+.hero-banner p {
+  color: #fff !important;
+}
+
+.hero-banner code {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+.panel-admin {
+  border-radius: var(--app-radius);
+  background: linear-gradient(120deg, #ef6c00 0%, #e65100 100%);
+}
+
+.panel-admin .card-title,
+.panel-admin p {
+  color: #fff !important;
+}
+
+.pre-json {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.table-wrap {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.sidenav li > a {
+  font-weight: 500;
+}
+
+.input-field input:focus + label,
+.input-field textarea:focus + label {
+  color: var(--app-accent) !important;
+}
+
+.input-field input:focus {
+  border-bottom: 1px solid var(--app-accent) !important;
+  box-shadow: 0 1px 0 0 var(--app-accent) !important;
+}

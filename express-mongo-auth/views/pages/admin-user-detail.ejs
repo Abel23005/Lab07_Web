@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+<div class="row">
+  <div class="col s12">
+    <div class="card app-card hoverable">
+      <div class="card-content">
+        <div class="auth-badge"><i class="material-icons tiny">visibility</i> Administración</div>
+        <span class="card-title">Ficha de usuario</span>
+        <p>
+          <a href="/dashboard/admin" class="teal-text text-darken-2" style="font-weight:600;">
+            <i class="material-icons tiny left" style="vertical-align:middle;">arrow_back</i>
+            Volver al listado
+          </a>
+        </p>
+        <p id="detail-loading" class="grey-text">Cargando información…</p>
+        <pre id="detail-json" class="pre-json grey lighten-4 hide" style="padding:14px;overflow:auto;max-height:520px;"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    var token = AuthLab.requireRolePage(['admin']);
+    if (!token) return;
+    var id = '<%= typeof userId !== "undefined" ? userId : "" %>';
+    try {
+      var res = await AuthLab.apiFetch('/api/users/' + encodeURIComponent(id));
+      var u = await res.json();
+      if (!res.ok) throw new Error(u.message || 'Error');
+      document.getElementById('detail-loading').classList.add('hide');
+      var pre = document.getElementById('detail-json');
+      pre.classList.remove('hide');
+      pre.textContent = JSON.stringify(u, null, 2);
+    } catch (e) {
+      document.getElementById('detail-loading').textContent =
+        'Usuario no encontrado o no tienes permiso para ver esta ficha.';
+    }
+  });
+</script>
+<%- include('../partials/footer') %>

@@ -1,0 +1,20 @@
+# Dependencias y secretos (en cualquier subcarpeta)
+node_modules/
+**/node_modules/
+.env
+**/.env
+.env.*
+!.env.example
+
+# Logs y cachés
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# SO / IDE
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
