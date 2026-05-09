@@ -1,11 +1,14 @@
 import dotenv from 'dotenv';
 import path from 'path';
+import dns from 'dns';
 import { existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import { createApp } from './app.js';
 import seedRoles from './utils/seedRoles.js';
 import seedUsers from './utils/seedUsers.js';
+
+dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const envApp = path.join(__dirname, '..', '.env');
