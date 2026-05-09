@@ -1,0 +1,15 @@
+# Blueprint de Render: cambia el nombre del servicio a express-auth-TuApellido (tu apellido).
+# Las variables sensibles (MONGODB_URI o MONGO_URI, JWT_SECRET) configúralas en el panel de Render,
+# no en este archivo.
+
+services:
+  - type: web
+    name: express-auth-QuispeQuezada
+    runtime: node
+    plan: free
+    rootDir: express-mongo-auth
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "18"

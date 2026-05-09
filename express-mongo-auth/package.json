@@ -1,0 +1,28 @@
+{
+  "name": "express-mongo-auth",
+  "version": "1.0.0",
+  "description": "Lab JWT fullstack — Express + MongoDB + EJS",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --watch src --watch views --exec node --experimental-specifier-resolution=node src/server.js"
+  },
+  "keywords": [],
+  "author": "earevalo",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.8.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<div class="row valign-wrapper" style="min-height:50vh;">
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="card auth-card hoverable">
+      <div class="card-content center-align">
+        <span class="card-title" style="display:block;margin-bottom:12px;">
+          <i class="material-icons medium teal-text text-darken-2">error_outline</i><br>
+          404 · Página no encontrada
+        </span>
+        <p class="auth-lead">
+          La dirección que escribiste no existe en esta aplicación o fue movida.
+        </p>
+        <a href="/signin" class="btn waves-effect waves-light btn-app">Ir al inicio de sesión</a>
+        <div class="auth-links">
+          <a href="/dashboard/user" class="teal-text text-darken-2">Panel usuario</a>
+          ·
+          <a href="/profile" class="teal-text text-darken-2">Mi cuenta</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

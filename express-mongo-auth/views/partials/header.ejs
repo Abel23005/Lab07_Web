@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' · Lab JWT' : 'Lab JWT · Seguridad web' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body class="app-body">
+  <nav class="navbar-app">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo truncate">Lab JWT</a>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/signin">Iniciar sesión</a></li>
+        <li><a href="/signup">Crear cuenta</a></li>
+        <li><a href="/profile">Mi cuenta</a></li>
+        <li><a href="/dashboard/user">Panel usuario</a></li>
+        <li><a href="/dashboard/admin">Panel administración</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-nav">
+    <li><a class="subheader teal-text text-darken-2">Navegación</a></li>
+    <li><a href="/signin"><i class="material-icons">login</i>Iniciar sesión</a></li>
+    <li><a href="/signup"><i class="material-icons">person_add</i>Crear cuenta</a></li>
+    <li><a href="/profile"><i class="material-icons">account_circle</i>Mi cuenta</a></li>
+    <li><a href="/dashboard/user"><i class="material-icons">dashboard</i>Panel usuario</a></li>
+    <li><a href="/dashboard/admin"><i class="material-icons">supervisor_account</i>Panel administración</a></li>
+  </ul>
+  <main class="container app-main section" style="margin-top:0;">

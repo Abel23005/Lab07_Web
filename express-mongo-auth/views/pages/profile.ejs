@@ -1,0 +1,151 @@
+<%- include('../partials/header') %>
+<div class="row">
+  <div class="col s12">
+    <div class="card app-card hoverable">
+      <div class="card-content">
+        <div class="auth-badge"><i class="material-icons tiny">account_circle</i> Perfil</div>
+        <span class="card-title">Mi cuenta</span>
+        <p id="profile-loading" class="auth-lead" style="margin-bottom:0;">Cargando tu información…</p>
+        <form id="profile-form" class="hide">
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix teal-text text-darken-2">mail_outline</i>
+              <input id="email" type="email" disabled placeholder=" ">
+              <label for="email" class="active">Correo electrónico</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix teal-text text-darken-2">vpn_key</i>
+              <input id="roles" type="text" disabled placeholder=" ">
+              <label for="roles" class="active">Roles</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="name" type="text" placeholder=" ">
+              <label for="name">Nombre</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input id="lastName" type="text" placeholder=" ">
+              <label for="lastName">Apellido</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="phoneNumber" type="text" placeholder=" ">
+              <label for="phoneNumber">Teléfono</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input id="birthdate" type="date">
+              <label for="birthdate" class="active">Fecha de nacimiento</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="url_profile" type="url" placeholder=" ">
+              <label for="url_profile">URL del perfil</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input id="adress" type="text" placeholder=" ">
+              <label for="adress">Dirección</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 grey-text text-darken-2">
+              <p><strong>Edad:</strong> <span id="age-display">—</span> años</p>
+              <p><strong>Fecha de registro:</strong> <span id="created-display">—</span></p>
+            </div>
+          </div>
+          <div class="divider" style="margin:1.25rem 0;"></div>
+          <p class="grey-text text-darken-1">Nueva contraseña (opcional). Debe cumplir la misma política de seguridad.</p>
+          <div class="input-field">
+            <i class="material-icons prefix teal-text text-darken-2">security</i>
+            <input id="password" type="password" autocomplete="new-password" placeholder=" ">
+            <label for="password">Nueva contraseña</label>
+          </div>
+          <button class="btn waves-effect waves-light btn-app" type="submit">
+            Guardar cambios <i class="material-icons right">save</i>
+          </button>
+          <button type="button" id="logout-btn" class="btn-flat waves-effect red-text text-darken-2">
+            Cerrar sesión
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    var token = AuthLab.requireAuthPage();
+    if (!token) return;
+
+    function isoDateOnly(d) {
+      if (!d) return '';
+      var dt = new Date(d);
+      if (isNaN(dt.getTime())) return '';
+      return dt.toISOString().slice(0, 10);
+    }
+
+    async function load() {
+      try {
+        var res = await AuthLab.apiFetch('/api/users/me');
+        var u = await res.json();
+        if (!res.ok) throw new Error(u.message || 'Error');
+        document.getElementById('profile-loading').classList.add('hide');
+        document.getElementById('profile-form').classList.remove('hide');
+        document.getElementById('email').value = u.email || '';
+        document.getElementById('roles').value = (u.roles || []).join(', ');
+        document.getElementById('name').value = u.name || '';
+        document.getElementById('lastName').value = u.lastName || '';
+        document.getElementById('phoneNumber').value = u.phoneNumber || '';
+        document.getElementById('birthdate').value = isoDateOnly(u.birthdate);
+        document.getElementById('url_profile').value = u.url_profile || '';
+        document.getElementById('adress').value = u.adress || '';
+        document.getElementById('age-display').textContent = u.age != null ? u.age : '—';
+        document.getElementById('created-display').textContent = u.createdAt
+          ? new Date(u.createdAt).toLocaleString('es')
+          : '—';
+        if (typeof M !== 'undefined') M.updateTextFields();
+      } catch (e) {
+        document.getElementById('profile-loading').textContent =
+          'No se pudo cargar el perfil. Comprueba tu conexión o vuelve a iniciar sesión.';
+      }
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', function () {
+      AuthLab.clearSession();
+      window.location.href = '/signin';
+    });
+
+    document.getElementById('profile-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var payload = {
+        name: document.getElementById('name').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        phoneNumber: document.getElementById('phoneNumber').value.trim(),
+        birthdate: document.getElementById('birthdate').value,
+        url_profile: document.getElementById('url_profile').value.trim(),
+        adress: document.getElementById('adress').value.trim()
+      };
+      var np = document.getElementById('password').value;
+      if (np) payload.password = np;
+      try {
+        var res = await AuthLab.apiFetch('/api/users/me', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        var data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+          if (typeof M !== 'undefined') M.toast({ html: data.message || 'No se pudieron guardar los cambios' });
+          return;
+        }
+        document.getElementById('password').value = '';
+        document.getElementById('age-display').textContent = data.age != null ? data.age : '—';
+        if (typeof M !== 'undefined') M.toast({ html: 'Cambios guardados correctamente' });
+      } catch (err) {}
+    });
+
+    load();
+  });
+</script>
+<%- include('../partials/footer') %>

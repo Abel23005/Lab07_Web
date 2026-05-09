@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+<div class="row">
+  <div class="col s12">
+    <div class="card panel-admin hoverable">
+      <div class="card-content">
+        <span class="card-title"><i class="material-icons left">supervisor_account</i> Panel de administración</span>
+        <p style="font-size:1.05rem;opacity:.95;">
+          Listado de usuarios obtenido con <code>GET /api/users</code>. Solo usuarios con rol <strong>admin</strong>.
+        </p>
+      </div>
+    </div>
+    <div class="card app-card hoverable">
+      <div class="card-content">
+        <span class="card-title">Usuarios registrados</span>
+        <p id="admin-loading" class="grey-text">Cargando listado…</p>
+        <div id="admin-table-wrap" class="hide table-wrap">
+          <table class="striped highlight responsive-table">
+            <thead>
+              <tr>
+                <th>Correo</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Roles</th>
+                <th>Alta</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    var token = AuthLab.requireRolePage(['admin']);
+    if (!token) return;
+
+    function td(text) {
+      var el = document.createElement('td');
+      el.textContent = text != null ? String(text) : '';
+      return el;
+    }
+
+    try {
+      var res = await AuthLab.apiFetch('/api/users');
+      var users = await res.json();
+      if (!res.ok) throw new Error(users.message || 'Error');
+      document.getElementById('admin-loading').classList.add('hide');
+      document.getElementById('admin-table-wrap').classList.remove('hide');
+      var tbody = document.getElementById('admin-tbody');
+      tbody.innerHTML = '';
+      users.forEach(function (u) {
+        var tr = document.createElement('tr');
+        tr.appendChild(td(u.email));
+        tr.appendChild(td(u.name));
+        tr.appendChild(td(u.lastName));
+        tr.appendChild(td(u.phoneNumber));
+        tr.appendChild(td((u.roles || []).join(', ')));
+        tr.appendChild(
+          td(u.createdAt ? new Date(u.createdAt).toLocaleString('es') : '')
+        );
+        var tdBtn = document.createElement('td');
+        var a = document.createElement('a');
+        a.className = 'btn-small waves-effect waves-light btn-app';
+        a.href = '/dashboard/admin/user/' + encodeURIComponent(u.id);
+        a.textContent = 'Ver ficha';
+        tdBtn.appendChild(a);
+        tr.appendChild(tdBtn);
+        tbody.appendChild(tr);
+      });
+    } catch (e) {
+      document.getElementById('admin-loading').textContent =
+        'No se pudo cargar el listado. Revisa tu conexión o los permisos.';
+    }
+  });
+</script>
+<%- include('../partials/footer') %>
